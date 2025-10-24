@@ -8,6 +8,9 @@ import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import EventsPage from './pages/EventsPage'
 import EventDetailsPage from './pages/EventDetailsPage'
+import VenuesPage from './pages/VenuesPage'
+import VenueDetailsPage from './pages/VenueDetailsPage'
+import PackagesPage from './pages/PackagesPage'
 import BookingPage from './pages/BookingPage'
 import ProfilePage from './pages/ProfilePage'
 import AuthPage from './pages/AuthPage'
@@ -25,6 +28,8 @@ import AnalyticsPage from './pages/merchant/AnalyticsPage'
 import PromotionsPage from './pages/merchant/PromotionsPage'
 import AdvertisingPage from './pages/merchant/AdvertisingPage'
 import SettingsPage from './pages/merchant/SettingsPage'
+import EventDetailPage from './pages/merchant/EventDetailPage'
+import CustomersPage from './pages/merchant/CustomersPage'
 
 function App() {
   return (
@@ -42,6 +47,9 @@ function App() {
                       <Route path="/" element={<HomePage />} />
                       <Route path="/events" element={<EventsPage />} />
                       <Route path="/events/:id" element={<EventDetailsPage />} />
+                      <Route path="/venues" element={<VenuesPage />} />
+                      <Route path="/venues/:id" element={<VenueDetailsPage />} />
+                      <Route path="/packages/:eventId" element={<PackagesPage />} />
                       <Route path="/booking/:id" element={<BookingPage />} />
                       <Route path="/profile" element={<ProfilePage />} />
                       <Route path="/auth" element={<AuthPage />} />
@@ -64,6 +72,8 @@ function App() {
               <Route path="/merchant/promotions" element={<PromotionsPage />} />
               <Route path="/merchant/advertising" element={<AdvertisingPage />} />
               <Route path="/merchant/settings" element={<SettingsPage />} />
+              <Route path="/merchant/events/:id" element={<EventDetailPage />} />
+              <Route path="/merchant/customers" element={<CustomersPage />} />
             </Routes>
           </Router>
         </MerchantProvider>

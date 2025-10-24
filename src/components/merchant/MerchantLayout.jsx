@@ -27,6 +27,7 @@ const MerchantLayout = ({ children }) => {
     { name: 'Dashboard', href: '/merchant/dashboard', icon: LayoutDashboard },
     { name: 'Events', href: '/merchant/events', icon: Calendar },
     { name: 'Bookings', href: '/merchant/bookings', icon: Users },
+    { name: 'Customers', href: '/merchant/customers', icon: Users },
     { name: 'Analytics', href: '/merchant/analytics', icon: BarChart3 },
     { name: 'Promotions', href: '/merchant/promotions', icon: Tag },
     { name: 'Advertising', href: '/merchant/advertising', icon: TrendingUp },

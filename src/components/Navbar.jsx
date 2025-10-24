@@ -46,6 +46,14 @@ const Navbar = () => {
             >
               Events
             </Link>
+            <Link 
+              to="/venues" 
+              className={`font-medium transition-all duration-300 ${
+                isActive('/venues') ? 'text-primary-600 font-semibold' : 'text-neutral-600 hover:text-primary-500'
+              }`}
+            >
+              Venues
+            </Link>
           </div>
 
           {/* Search Bar */}
@@ -147,6 +155,9 @@ const Navbar = () => {
               </Link>
               <Link to="/events" className="text-neutral-600 hover:text-primary-500 font-medium py-2">
                 Events
+              </Link>
+              <Link to="/venues" className="text-neutral-600 hover:text-primary-500 font-medium py-2">
+                Venues
               </Link>
               <Link to="/merchant/auth" className="text-neutral-600 hover:text-primary-500 font-medium py-2">
                 For Businesses

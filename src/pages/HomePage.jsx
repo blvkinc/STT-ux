@@ -47,9 +47,63 @@ const HomePage = () => {
     { name: "Luxury Brunch", icon: "🥂", count: 45 },
     { name: "Rooftop Parties", icon: "🌃", count: 32 },
     { name: "Beach Clubs", icon: "🏖️", count: 28 },
-    { name: "Family Friendly", icon: "👨‍👩‍👧‍👦", count: 19 },
-    { name: "Business Lunch", icon: "💼", count: 15 },
-    { name: "Date Night", icon: "💕", count: 38 }
+    { name: "Sports Bars", icon: "⚽", count: 22 },
+    { name: "Ladies Night", icon: "💃", count: 18 },
+    { name: "Ocean View", icon: "🌊", count: 35 }
+  ]
+
+  const topVenues = [
+    {
+      id: 1,
+      name: "Azure Beach Club",
+      category: "Beach Club",
+      image: "https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=400&h=300&fit=crop",
+      rating: 4.7,
+      reviews: 156,
+      location: "Palm Jumeirah",
+      upcomingEvents: 3
+    },
+    {
+      id: 2,
+      name: "Sky Lounge Dubai",
+      category: "Rooftop Bar",
+      image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a8e?w=400&h=300&fit=crop",
+      rating: 4.6,
+      reviews: 89,
+      location: "Downtown Dubai",
+      upcomingEvents: 5
+    },
+    {
+      id: 3,
+      name: "Marina Sports Grill",
+      category: "Sports Bar",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop",
+      rating: 4.4,
+      reviews: 67,
+      location: "Dubai Marina",
+      upcomingEvents: 8
+    }
+  ]
+
+  const bucketListExperiences = [
+    {
+      id: 1,
+      title: "Burj Al Arab Gold Brunch",
+      venue: "Al Muntaha Restaurant",
+      image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop",
+      price: 899,
+      category: "Ultra Luxury",
+      exclusive: true
+    },
+    {
+      id: 2,
+      title: "Private Yacht Brunch",
+      venue: "Dubai Marina Yacht Club",
+      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop",
+      price: 1299,
+      category: "Exclusive Experience",
+      exclusive: true
+    }
   ]
 
   return (
@@ -145,6 +199,124 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredEvents.map((event) => (
               <EventCard key={event.id} event={event} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Top Venues */}
+      <section className="section-padding bg-white">
+        <div className="max-w-7xl mx-auto container-padding">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16">
+            <div className="mb-8 md:mb-0">
+              <h2 className="text-4xl md:text-5xl font-bold text-neutral-800 mb-6">Top Venues</h2>
+              <p className="text-neutral-600 text-xl">Dubai's most popular dining destinations</p>
+            </div>
+            <Link to="/venues" className="btn-secondary flex items-center space-x-2 px-6 py-3">
+              <span>View All Venues</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {topVenues.map((venue) => (
+              <div key={venue.id} className="bg-white rounded-2xl overflow-hidden shadow-soft border border-neutral-100 hover:shadow-soft-lg transition-all duration-300 hover:-translate-y-1 group">
+                <div className="relative overflow-hidden">
+                  <img 
+                    src={venue.image} 
+                    alt={venue.name}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-neutral-700">
+                      {venue.category}
+                    </span>
+                  </div>
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center space-x-1 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-sm font-medium">{venue.rating}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-neutral-800 mb-2 group-hover:text-primary-600 transition-colors">
+                    <Link to={`/venues/${venue.id}`}>{venue.name}</Link>
+                  </h3>
+                  
+                  <div className="flex items-center space-x-1 text-neutral-500 mb-4">
+                    <span className="text-sm">{venue.location}</span>
+                    <span className="text-neutral-300">•</span>
+                    <span className="text-sm">{venue.upcomingEvents} events</span>
+                  </div>
+                  
+                  <div className="flex space-x-2">
+                    <Link 
+                      to={`/venues/${venue.id}`}
+                      className="flex-1 btn-primary text-center"
+                    >
+                      View Venue
+                    </Link>
+                    <Link 
+                      to={`/venues/${venue.id}#events`}
+                      className="btn-secondary px-4"
+                    >
+                      Events
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Bucket List Experiences */}
+      <section className="section-padding bg-gradient-to-br from-accent-50 to-primary-50">
+        <div className="max-w-7xl mx-auto container-padding">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-neutral-800 mb-6">Bucket List Experiences</h2>
+            <p className="text-neutral-600 text-xl max-w-2xl mx-auto">Once-in-a-lifetime dining experiences that define luxury in Dubai</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {bucketListExperiences.map((experience) => (
+              <div key={experience.id} className="bg-white rounded-2xl overflow-hidden shadow-soft-lg border border-neutral-100 hover:shadow-soft-xl transition-all duration-300 hover:-translate-y-2 group relative">
+                <div className="absolute top-4 right-4 z-10">
+                  <span className="bg-gradient-to-r from-accent-500 to-primary-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    Exclusive
+                  </span>
+                </div>
+                <div className="relative overflow-hidden">
+                  <img 
+                    src={experience.image} 
+                    alt={experience.title}
+                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 right-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">{experience.title}</h3>
+                    <p className="text-neutral-200">{experience.venue}</p>
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-sm font-medium text-accent-600 bg-accent-50 px-3 py-1 rounded-full">
+                      {experience.category}
+                    </span>
+                    <span className="text-3xl font-bold text-primary-600">AED {experience.price}</span>
+                  </div>
+                  
+                  <Link 
+                    to={`/events/${experience.id}`}
+                    className="w-full btn-primary text-center"
+                  >
+                    Reserve Experience
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
         </div>
