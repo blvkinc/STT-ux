@@ -39,6 +39,14 @@ const Navbar = () => {
               Home
             </Link>
             <Link 
+              to="/explore" 
+              className={`font-medium transition-all duration-300 ${
+                isActive('/explore') ? 'text-primary-600 font-semibold' : 'text-neutral-600 hover:text-primary-500'
+              }`}
+            >
+              Explore
+            </Link>
+            <Link 
               to="/events" 
               className={`font-medium transition-all duration-300 ${
                 isActive('/events') ? 'text-primary-600 font-semibold' : 'text-neutral-600 hover:text-primary-500'
@@ -75,6 +83,13 @@ const Navbar = () => {
               className="text-neutral-600 hover:text-primary-500 font-medium transition-colors"
             >
               For Businesses
+            </Link>
+            
+            <Link 
+              to="/admin/dashboard" 
+              className="text-red-600 hover:text-red-700 font-medium transition-colors px-3 py-2 bg-red-50 rounded-xl border border-red-200"
+            >
+              Super Admin
             </Link>
             
             {isAuthenticated ? (
@@ -153,6 +168,9 @@ const Navbar = () => {
               <Link to="/" className="text-neutral-600 hover:text-primary-500 font-medium py-2">
                 Home
               </Link>
+              <Link to="/explore" className="text-neutral-600 hover:text-primary-500 font-medium py-2">
+                Explore
+              </Link>
               <Link to="/events" className="text-neutral-600 hover:text-primary-500 font-medium py-2">
                 Events
               </Link>
@@ -161,6 +179,9 @@ const Navbar = () => {
               </Link>
               <Link to="/merchant/auth" className="text-neutral-600 hover:text-primary-500 font-medium py-2">
                 For Businesses
+              </Link>
+              <Link to="/admin/dashboard" className="text-red-600 hover:text-red-700 font-medium py-2">
+                Super Admin
               </Link>
               
               {isAuthenticated ? (

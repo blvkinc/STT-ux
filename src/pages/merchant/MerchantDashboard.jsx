@@ -23,6 +23,11 @@ const MerchantDashboard = () => {
     return <Navigate to="/merchant/auth" replace />
   }
 
+  // Redirect super admins to their dashboard
+  if (merchant?.role === 'super_admin') {
+    return <Navigate to="/admin/dashboard" replace />
+  }
+
   // Mock analytics data
   const analytics = {
     totalRevenue: merchant?.totalRevenue || 15420,

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Star, MapPin, Clock, Heart, Share2, Calendar, Phone, Mail, ArrowLeft } from 'lucide-react'
+import { Star, MapPin, Clock, Heart, Share2, Calendar, Phone, Mail, ArrowLeft, ArrowRight, Users, Check } from 'lucide-react'
 
 const EventDetailsPage = () => {
   const { id: _id } = useParams()
   const [selectedPackage, setSelectedPackage] = useState('individual')
   const [selectedDate, setSelectedDate] = useState('')
   const [guestCount, setGuestCount] = useState(2)
+  const [activeTab, setActiveTab] = useState('overview')
 
   // Mock event data
   const event = {
@@ -34,25 +35,34 @@ const EventDetailsPage = () => {
     ],
     packages: [
       {
-        id: 'individual',
-        name: 'Individual Package',
+        id: 1,
+        name: 'Classic Brunch Package',
         price: 299,
-        description: 'Perfect for solo diners',
-        includes: ['Buffet access', 'Soft drinks', 'Tea & coffee']
+        originalPrice: 349,
+        description: 'Perfect introduction to our luxury brunch experience',
+        maxGuests: 2,
+        popular: false,
+        features: ['Welcome drink on arrival', 'Access to international buffet', 'Soft beverages included', '2-hour dining experience', 'Complimentary valet parking']
       },
       {
-        id: 'couple',
-        name: 'Couple Package',
-        price: 549,
-        description: 'Romantic experience for two',
-        includes: ['Buffet access for 2', 'Welcome drinks', 'Complimentary dessert', 'Priority seating']
+        id: 2,
+        name: 'Premium Brunch Package',
+        price: 449,
+        originalPrice: 529,
+        description: 'Enhanced experience with premium beverages and extras',
+        maxGuests: 4,
+        popular: true,
+        features: ['Premium welcome cocktail', 'Access to international buffet', 'Premium beverages included', '3-hour dining experience', 'Complimentary valet parking', 'Priority seating with ocean view', 'Complimentary dessert selection']
       },
       {
-        id: 'group',
-        name: 'Group Package (4-6 people)',
-        price: 999,
-        description: 'Great for families and friends',
-        includes: ['Buffet access for up to 6', 'Group photo', 'Dedicated server', 'Special group menu']
+        id: 3,
+        name: 'VIP Experience Package',
+        price: 699,
+        originalPrice: 799,
+        description: 'Ultimate luxury with exclusive perks and personalized service',
+        maxGuests: 6,
+        popular: false,
+        features: ['Private welcome reception', 'Access to exclusive VIP buffet', 'Premium champagne & beverages', '4-hour dining experience', 'Complimentary valet parking', 'Private dining area with panoramic views', 'Personal sommelier service', 'Complimentary spa access', 'Professional photography session']
       }
     ],
     contact: {
@@ -164,69 +174,165 @@ const EventDetailsPage = () => {
               </div>
             </div>
 
-            {/* Description */}
+            {/* Tabs */}
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">About This Experience</h2>
-              <p className="text-slate-600 leading-relaxed mb-6">{event.description}</p>
-              
-              <h3 className="text-lg font-semibold text-slate-900 mb-3">Highlights</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {event.highlights.map((highlight, index) => (
-                  <li key={index} className="flex items-center space-x-2 text-slate-600">
-                    <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Policies */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold text-slate-900 mb-3">Important Information</h3>
-              <ul className="space-y-2">
-                {event.policies.map((policy, index) => (
-                  <li key={index} className="flex items-start space-x-2 text-slate-600">
-                    <div className="w-2 h-2 bg-slate-400 rounded-full mt-2"></div>
-                    <span>{policy}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Reviews */}
-            <div className="mb-8">
-              <h3 className="text-2xl font-semibold text-slate-900 mb-6">Reviews</h3>
-              <div className="space-y-6">
-                {reviews.map((review) => (
-                  <div key={review.id} className="border-b border-slate-100 pb-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                          <span className="text-primary-600 font-medium">
-                            {review.name.charAt(0)}
-                          </span>
-                        </div>
-                        <div>
-                          <div className="font-medium text-slate-900">{review.name}</div>
-                          <div className="text-sm text-slate-500">{review.date}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-4 h-4 ${
-                              i < review.rating ? 'text-yellow-400 fill-current' : 'text-slate-300'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-slate-600">{review.comment}</p>
-                  </div>
-                ))}
+              <div className="border-b border-neutral-200">
+                <nav className="-mb-px flex space-x-8">
+                  {[
+                    { id: 'overview', name: 'Overview' },
+                    { id: 'packages', name: 'Packages' },
+                    { id: 'reviews', name: 'Reviews' }
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                        activeTab === tab.id
+                          ? 'border-primary-500 text-primary-600'
+                          : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                      }`}
+                    >
+                      {tab.name}
+                    </button>
+                  ))}
+                </nav>
               </div>
             </div>
+
+            {/* Tab Content */}
+            {activeTab === 'overview' && (
+              <div className="space-y-8">
+                {/* Description */}
+                <div>
+                  <h2 className="text-2xl font-semibold text-slate-900 mb-4">About This Experience</h2>
+                  <p className="text-slate-600 leading-relaxed mb-6">{event.description}</p>
+                  
+                  <h3 className="text-lg font-semibold text-slate-900 mb-3">Highlights</h3>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {event.highlights.map((highlight, index) => (
+                      <li key={index} className="flex items-center space-x-2 text-slate-600">
+                        <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Policies */}
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-900 mb-3">Important Information</h3>
+                  <ul className="space-y-2">
+                    {event.policies.map((policy, index) => (
+                      <li key={index} className="flex items-start space-x-2 text-slate-600">
+                        <div className="w-2 h-2 bg-slate-400 rounded-full mt-2"></div>
+                        <span>{policy}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'packages' && (
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-semibold text-slate-900">Available Packages</h2>
+                  <Link 
+                    to={`/packages/${event.id}`}
+                    className="btn-secondary flex items-center space-x-2"
+                  >
+                    <span>View All Packages</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {event.packages.map((pkg) => (
+                    <div key={pkg.id} className="bg-white rounded-2xl p-6 border border-neutral-200 hover:border-primary-300 hover:shadow-soft-lg transition-all duration-300 relative">
+                      {pkg.popular && (
+                        <div className="absolute -top-3 left-6">
+                          <span className="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            Most Popular
+                          </span>
+                        </div>
+                      )}
+                      
+                      <div className="mb-4">
+                        <h3 className="text-xl font-bold text-neutral-800 mb-2">{pkg.name}</h3>
+                        <p className="text-neutral-600 text-sm mb-4">{pkg.description}</p>
+                        
+                        <div className="flex items-center space-x-2 mb-4">
+                          <Users className="w-4 h-4 text-neutral-500" />
+                          <span className="text-sm text-neutral-600">Up to {pkg.maxGuests} guests</span>
+                        </div>
+                        
+                        <div className="flex items-center space-x-2 mb-4">
+                          <span className="text-2xl font-bold text-primary-600">AED {pkg.price}</span>
+                          {pkg.originalPrice > pkg.price && (
+                            <span className="text-lg text-neutral-500 line-through">AED {pkg.originalPrice}</span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2 mb-6">
+                        {pkg.features.slice(0, 3).map((feature, index) => (
+                          <div key={index} className="flex items-start space-x-2">
+                            <Check className="w-4 h-4 text-primary-600 mt-0.5 flex-shrink-0" />
+                            <span className="text-sm text-neutral-700">{feature}</span>
+                          </div>
+                        ))}
+                        {pkg.features.length > 3 && (
+                          <p className="text-sm text-neutral-500">+{pkg.features.length - 3} more features</p>
+                        )}
+                      </div>
+                      
+                      <Link 
+                        to={`/packages/detail/${pkg.id}`}
+                        className="w-full btn-primary text-center block"
+                      >
+                        View Package Details
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'reviews' && (
+              <div>
+                <h2 className="text-2xl font-semibold text-slate-900 mb-6">Reviews</h2>
+                <div className="space-y-6">
+                  {reviews.map((review) => (
+                    <div key={review.id} className="border-b border-slate-100 pb-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                            <span className="text-primary-600 font-medium">
+                              {review.name.charAt(0)}
+                            </span>
+                          </div>
+                          <div>
+                            <div className="font-medium text-slate-900">{review.name}</div>
+                            <div className="text-sm text-slate-500">{review.date}</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < review.rating ? 'text-yellow-400 fill-current' : 'text-slate-300'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-slate-600">{review.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Booking Sidebar */}
@@ -242,26 +348,43 @@ const EventDetailsPage = () => {
                     {event.packages.map((pkg) => (
                       <div
                         key={pkg.id}
-                        className={`p-4 border rounded-lg cursor-pointer transition-colors ${
+                        className={`p-4 border rounded-lg cursor-pointer transition-colors relative ${
                           selectedPackage === pkg.id
                             ? 'border-primary-500 bg-primary-50'
                             : 'border-slate-200 hover:border-primary-300'
                         }`}
                         onClick={() => setSelectedPackage(pkg.id)}
                       >
+                        {pkg.popular && (
+                          <div className="absolute -top-2 -right-2">
+                            <span className="bg-primary-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                              Popular
+                            </span>
+                          </div>
+                        )}
                         <div className="flex justify-between items-start mb-2">
                           <h4 className="font-medium text-slate-900">{pkg.name}</h4>
-                          <span className="text-lg font-bold text-primary-500">AED {pkg.price}</span>
+                          <div className="text-right">
+                            <span className="text-lg font-bold text-primary-500">AED {pkg.price}</span>
+                            {pkg.originalPrice > pkg.price && (
+                              <div className="text-sm text-slate-500 line-through">AED {pkg.originalPrice}</div>
+                            )}
+                          </div>
                         </div>
                         <p className="text-sm text-slate-600 mb-2">{pkg.description}</p>
-                        <ul className="text-xs text-slate-500">
-                          {pkg.includes.map((item, index) => (
-                            <li key={index}>• {item}</li>
-                          ))}
-                        </ul>
+                        <div className="flex items-center space-x-2 text-xs text-slate-500">
+                          <Users className="w-3 h-3" />
+                          <span>Up to {pkg.maxGuests} guests</span>
+                        </div>
                       </div>
                     ))}
                   </div>
+                  <Link 
+                    to={`/packages/${event.id}`}
+                    className="block text-center text-primary-600 hover:text-primary-700 font-medium text-sm mt-3"
+                  >
+                    View detailed package comparison →
+                  </Link>
                 </div>
 
                 {/* Date Selection */}
@@ -305,8 +428,11 @@ const EventDetailsPage = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-medium text-slate-900">Total</span>
                     <span className="text-2xl font-bold text-primary-500">
-                      AED {event.packages.find(p => p.id === selectedPackage)?.price || 0}
+                      AED {(event.packages.find(p => p.id === selectedPackage)?.price || 0) * guestCount}
                     </span>
+                  </div>
+                  <div className="text-sm text-slate-500 text-right">
+                    AED {event.packages.find(p => p.id === selectedPackage)?.price || 0} × {guestCount} guests
                   </div>
                 </div>
 

@@ -36,7 +36,9 @@ const MerchantAuthPage = () => {
       const result = await loginMerchant(formData.email, formData.password)
       if (result.success) {
         setSuccess('Login successful! Redirecting to dashboard...')
-        setTimeout(() => navigate('/merchant/dashboard'), 1500)
+        // Redirect based on role
+        const redirectPath = formData.email === 'admin@stt.com' ? '/admin/dashboard' : '/merchant/dashboard'
+        setTimeout(() => navigate(redirectPath), 1500)
       } else {
         setError(result.error || 'Login failed')
       }
@@ -151,12 +153,58 @@ const MerchantAuthPage = () => {
             </form>
 
             {/* Demo Credentials */}
-            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-2xl">
-              <h4 className="font-semibold text-blue-800 mb-2">Demo Credentials</h4>
-              <p className="text-blue-700 text-sm mb-2">Use any email and password (min 6 chars) to test:</p>
-              <div className="text-blue-600 text-sm font-mono">
-                <p>Email: merchant@example.com</p>
-                <p>Password: password123</p>
+            <div className="mt-6 space-y-4">
+              {/* Merchant Credentials */}
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl">
+                <h4 className="font-semibold text-blue-800 mb-2">🏢 Merchant Demo</h4>
+                <p className="text-blue-700 text-sm mb-2">Regular merchant account:</p>
+                <div className="text-blue-600 text-sm font-mono space-y-1">
+                  <p>Email: merchant@example.com</p>
+                  <p>Password: password123</p>
+                </div>
+              </div>
+
+              {/* Super Admin Credentials */}
+              <div className="p-4 bg-red-50 border border-red-200 rounded-2xl">
+                <h4 className="font-semibold text-red-800 mb-2">🛡️ Super Admin Demo</h4>
+                <p className="text-red-700 text-sm mb-2">Platform administrator access:</p>
+                <div className="text-red-600 text-sm font-mono space-y-1">
+                  <p>Email: admin@stt.com</p>
+                  <p>Password: admin123</p>
+                </div>
+                <p className="text-red-600 text-xs mt-2">⚠️ Full platform management access</p>
+              </div>
+
+              {/* Quick Fill Buttons */}
+              <div className="flex space-x-2">
+                <button
+                  type="button"
+                  onClick={() => setFormData({ email: 'merchant@example.com', password: 'password123' })}
+                  className="flex-1 px-3 py-2 bg-blue-100 text-blue-700 rounded-xl text-sm font-medium hover:bg-blue-200 transition-colors"
+                >
+                  Fill Merchant
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ email: 'admin@stt.com', password: 'admin123' })}
+                  className="flex-1 px-3 py-2 bg-red-100 text-red-700 rounded-xl text-sm font-medium hover:bg-red-200 transition-colors"
+                >
+                  Fill Admin
+                </button>
+              </div>
+
+              {/* Debug Clear Storage */}
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    localStorage.clear()
+                    window.location.reload()
+                  }}
+                  className="w-full px-3 py-2 bg-neutral-100 text-neutral-700 rounded-xl text-sm font-medium hover:bg-neutral-200 transition-colors"
+                >
+                  🔧 Clear Storage & Refresh (Debug)
+                </button>
               </div>
             </div>
 

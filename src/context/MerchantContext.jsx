@@ -21,7 +21,19 @@ export const MerchantProvider = ({ children }) => {
   useEffect(() => {
     const savedMerchant = localStorage.getItem('stt_merchant')
     if (savedMerchant) {
-      setMerchant(JSON.parse(savedMerchant))
+      const merchantData = JSON.parse(savedMerchant)
+      
+      // Ensure role is set for existing merchants (backward compatibility)
+      if (!merchantData.role) {
+        if (merchantData.email === 'admin@stt.com') {
+          merchantData.role = 'super_admin'
+        } else {
+          merchantData.role = 'merchant'
+        }
+        localStorage.setItem('stt_merchant', JSON.stringify(merchantData))
+      }
+      
+      setMerchant(merchantData)
       loadMerchantData()
     }
     setLoading(false)
@@ -77,6 +89,30 @@ export const MerchantProvider = ({ children }) => {
   const loginMerchant = async (email, password) => {
     // Simple validation - in real app this would be API call
     if (email && password.length >= 6) {
+      // Check if it's super admin credentials
+      if (email === 'admin@stt.com' && password === 'admin123') {
+        const adminData = {
+          id: 1,
+          email,
+          businessName: 'STT Platform Administration',
+          phone: '+971 4 000 0000',
+          joinedDate: 'Platform Launch',
+          status: 'Super Administrator',
+          subscriptionType: 'Platform Admin',
+          totalRevenue: 2847392,
+          totalBookings: 5678,
+          totalEvents: 342,
+          rating: 5.0,
+          role: 'super_admin'
+        }
+        
+        setMerchant(adminData)
+        localStorage.setItem('stt_merchant', JSON.stringify(adminData))
+        loadMerchantData()
+        return { success: true }
+      }
+      
+      // Regular merchant login
       const merchantData = {
         id: Date.now(),
         email,
@@ -88,7 +124,8 @@ export const MerchantProvider = ({ children }) => {
         totalRevenue: 15420,
         totalBookings: 89,
         totalEvents: 12,
-        rating: 4.6
+        rating: 4.6,
+        role: 'merchant'
       }
       
       setMerchant(merchantData)
@@ -106,6 +143,9 @@ export const MerchantProvider = ({ children }) => {
     setEvents([])
     setBookings([])
     localStorage.removeItem('stt_merchant')
+    localStorage.removeItem('stt_merchant_venues')
+    localStorage.removeItem('stt_merchant_events')
+    localStorage.removeItem('stt_merchant_bookings')
   }
 
   const updateMerchant = (updates) => {

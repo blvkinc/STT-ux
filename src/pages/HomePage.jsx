@@ -145,9 +145,9 @@ const HomePage = () => {
                     className="w-full md:w-auto pl-12 pr-4 py-4 text-neutral-800 rounded-2xl bg-neutral-50 border-0 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:bg-white transition-all duration-300"
                   />
                 </div>
-                <button className="btn-primary whitespace-nowrap px-8 py-4">
+                <Link to="/explore" className="btn-primary whitespace-nowrap px-8 py-4 text-center">
                   Find Events
-                </button>
+                </Link>
               </div>
             </div>
           </div>
